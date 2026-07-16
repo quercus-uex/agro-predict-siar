@@ -1,0 +1,41 @@
+name: Build and publish Docker image
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/**"
+      - "pom.xml"
+      - "Dockerfile"
+      - ".github/workflows/docker-publish.yml"
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set short SHA
+        id: vars
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            dtagro/agro-predict-siar:latest
+            dtagro/agro-predict-siar:${{ steps.vars.outputs.sha_short }}

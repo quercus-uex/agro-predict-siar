@@ -2,7 +2,7 @@
 FROM maven:3.9.4-eclipse-temurin-21-alpine AS builder
 
 # Persona encargada del dockerfile
-MAINTAINER mendorr
+MAINTAINER dtagro
 
 # Incluyo en el contenedor el directorio base donde colgará toda la aplicacion
 WORKDIR /app
