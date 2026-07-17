@@ -38,3 +38,4 @@ jobs:
           push: true
           tags: |
             dtagro/agro-predict-siar:latest
+            dtagro/agro-predict-siar:${{ steps.vars.outputs.sha_short }}
