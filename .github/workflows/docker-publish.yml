@@ -27,10 +27,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
-      - name: Set short SHA
-        id: vars
-        run: echo "sha_short=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
-
       - name: Build and push image
         uses: docker/build-push-action@v7
         with:
@@ -38,4 +34,3 @@ jobs:
           push: true
           tags: |
             dtagro/agro-predict-siar:latest
-            dtagro/agro-predict-siar:${{ steps.vars.outputs.sha_short }}
